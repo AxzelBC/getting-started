@@ -11,3 +11,7 @@ En cuanto al backend, opera utilizando una base de datos MongoDB en conjunto con
 Para facilitar la instalación de la herramienta, existe un [docker-compose](./docker-compose/README.md) que despliega el sistema en una sola máquina. Sin embargo, es recomendable para entornos colaborativos o de producción hacer el despliegue de la herramienta en varias máquinas. Los detalles de una instalación así se encuentran en las guías de uso.
 
 ## Guías de uso
+
+### Instalación
+
+### Uso del aplicativo
