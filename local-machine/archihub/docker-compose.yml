@@ -44,7 +44,7 @@ services:
       - ./mongo_db/backup/:/data_restore/
       - ./mongo_db/backup_restore.sh:/docker-entrypoint-initdb.d/backup_restore.sh
     networks:
-      - cev_mongo_network
+      - archihub_mongo_network
 
 # ----------- POPULATION OF ELASTIC INDEXES FROM MONGO DATABASE DOCUMENTS -----------
   archihub_flask_backend:
@@ -69,8 +69,8 @@ services:
       - redis
     command: ["/app/backup_mongo.sh"]
     networks:
-      - cev_mongo_network
-      - cev_elastic_network
+      - archihub_mongo_network
+      - archihub_elastic_network
 
   celery_worker:
     build:
@@ -90,8 +90,8 @@ services:
     working_dir: /app
     command: 'celery --app app.celery_app worker --loglevel INFO'
     networks:
-      - cev_mongo_network
-      - cev_elastic_network
+      - archihub_mongo_network
+      - archihub_elastic_network
 
 # ---------------------- FRONT END SERVICE ----------------------
   archihub_frontend:
@@ -110,16 +110,16 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - cev_mongo_network
-      - cev_elastic_network
+      - archihub_mongo_network
+      - archihub_elastic_network
 # ---------------------- NETWORKS LISTING ----------------------
 
 networks:
   app-network:
     driver: bridge
-  cev_mongo_network:
-    name: cev_mongo_network
-  cev_elastic_network:
-    name: cev_elastic_network
+  archihub_mongo_network:
+    name: archihub_mongo_network
+  archihub_elastic_network:
+    name: archihub_elastic_network
   default:
     attachable: false
