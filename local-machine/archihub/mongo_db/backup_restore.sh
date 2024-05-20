@@ -1,7 +1,6 @@
 #!/bin/bash
 
-FILES=(forms.bson lists.bson system.bson users.bson records.bson resources.bson post_types.bson options.bson)
-# FILES = (collections.bson)
+FILES=(system.bson users.bson)
 
 cd /data_restore
 

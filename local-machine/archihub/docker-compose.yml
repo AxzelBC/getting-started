@@ -8,7 +8,6 @@ x-backend_env_variables: &backend_env_variables
   FLASK_ENV: prod
   FLASK_DEBUG: 1
   FLASK_RUN_PORT: ${BACKEND_PORT_FLASK}
-  FLASK_RUN_HOST: ${FLASK_HOST}
   MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
   MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
   MONGO_INITDB_DATABASE: archihub-${ENVIRONMENT_NAME}
@@ -41,6 +40,7 @@ services:
     environment:
       <<: *mongo_db_env_variables
     volumes:
+      - ../data/mongodb:/data/db
       - ./mongo_db/backup/:/data_restore/
       - ./mongo_db/backup_restore.sh:/docker-entrypoint-initdb.d/backup_restore.sh
     networks:
@@ -97,8 +97,6 @@ services:
   archihub_frontend:
     build:
       context: ./frontend
-      args:
-        - BACK_ARG=http://${FRONTEND_HOST}:${BACKEND_PORT_EXTERNAL}
     ports:
       - "80:80"
     depends_on:
