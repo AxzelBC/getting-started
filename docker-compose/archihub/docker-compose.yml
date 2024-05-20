@@ -11,7 +11,7 @@ x-general_env_variables: &general_env_variables
   FLASK_RUN_HOST: ${FLASK_HOST}
   MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
   MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-  MONGO_INITDB_DATABASE: sim-backend-${ENVIRONMENT_NAME}
+  MONGO_INITDB_DATABASE: archihub-${ENVIRONMENT_NAME}
   MONGO_HOST: ${MONGO_HOST}
   MONGO_PORT: '27017'
 # --------------------------------------------
@@ -19,7 +19,7 @@ x-general_env_variables: &general_env_variables
 services:
 
 # ---------------------- MONGO DATABASE SERVICE ----------------------
-  sim_mongodb_server_01:
+  archihub_mongodb_server_01:
     image: mongo:5.0.9
     ports:
       - "27017:27017"
@@ -32,7 +32,7 @@ services:
       - cev_mongo_network
 
 # ----------- POPULATION OF ELASTIC INDEXES FROM MONGO DATABASE DOCUMENTS -----------
-  sim_flask_backend:
+  archihub_flask_backend:
     build:
       context: ./backend
       args:
@@ -51,7 +51,7 @@ services:
       - "../original:/app/uploads"
       - "../temporal:/app/temporal"
     depends_on:
-      - sim_mongodb_server_01
+      - archihub_mongodb_server_01
       - redis
     command: ["/app/backup_mongo.sh"]
     networks:
@@ -72,7 +72,7 @@ services:
       - "../original:/app/uploads"
       - "../temporal:/app/temporal"
     depends_on:
-      - sim_flask_backend
+      - archihub_flask_backend
       - redis
     working_dir: /app
     command: 'celery --app app.celery_app worker --loglevel INFO'
@@ -81,7 +81,7 @@ services:
       - cev_elastic_network
 
 # ---------------------- FRONT END SERVICE ----------------------
-  sim_frontend:
+  archihub_frontend:
     build:
       context: ./frontend
       args:
@@ -89,7 +89,7 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - sim_flask_backend
+      - archihub_flask_backend
 
 
   redis:
