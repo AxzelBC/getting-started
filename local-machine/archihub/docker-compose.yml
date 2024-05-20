@@ -67,7 +67,7 @@ services:
     depends_on:
       - archihub_mongodb_server_01
       - redis
-    command: ["/app/backup_mongo.sh"]
+    command: ["/app/start.sh"]
     networks:
       - archihub_mongo_network
       - archihub_elastic_network
@@ -102,7 +102,7 @@ services:
     depends_on:
       - archihub_flask_backend
 
-
+# ---------------------- REDIS SERVICE ----------------------
   redis:
     image: redis:6-alpine
     ports:
