@@ -56,7 +56,6 @@ services:
       - ${BACKEND_PORT_FLASK}:${BACKEND_PORT_FLASK}
     environment:
       <<: *backend_env_variables
-      MONGO_IP_SERVER: $MONGO_HOST
     volumes:
       - ./stash/elastic_certs:/stash/elastic_certs:ro
       - ./stash/wait_for:/wait_for:ro
@@ -80,7 +79,6 @@ services:
         - PORT=${BACKEND_PORT_FLASK}
     environment:
       <<: *backend_env_variables
-      MONGO_IP_SERVER: $MONGO_HOST
     volumes:
       - "../userfiles:/app/userfiles"
       - "../webfiles:/app/webfiles"
