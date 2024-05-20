@@ -1,0 +1,7 @@
+/local-machine/archihub/backend
+/original/*
+/userfiles/*
+/webfiles/*
+/temporal/*
+/data/mongodb/*
+/data/elastic/*
