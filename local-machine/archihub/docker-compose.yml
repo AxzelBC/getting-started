@@ -59,7 +59,6 @@ services:
     volumes:
       - ./stash/elastic_certs:/stash/elastic_certs:ro
       - ./stash/wait_for:/wait_for:ro
-      - "./elastic_db/uploads:/app/uploads"
       - "../userfiles:/app/userfiles"
       - "../webfiles:/app/webfiles"
       - "../original:/app/uploads"
