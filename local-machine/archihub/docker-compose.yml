@@ -71,6 +71,7 @@ services:
       - archihub_mongo_network
       - archihub_elastic_network
 
+# ----------------------- CELERY WORKER SERVICE -----------------------
   celery_worker:
     build:
       context: ./backend
@@ -87,10 +88,33 @@ services:
       - archihub_flask_backend
       - redis
     working_dir: /app
-    command: 'celery --app app.celery_app worker --loglevel INFO'
+    command: 'CELERY_WORKER=true celery --app app.celery_app worker --loglevel INFO'
     networks:
       - archihub_mongo_network
       - archihub_elastic_network
+
+# ----------------------- CELERY QUEUE SERVICE -----------------------
+
+  # celery_worker_2:
+  #   build:
+  #     context: ./backend
+  #     args:
+  #       - PORT=${BACKEND_PORT_FLASK}
+  #   environment:
+  #     <<: *backend_env_variables
+  #   volumes:
+  #     - "../userfiles:/app/userfiles"
+  #     - "../webfiles:/app/webfiles"
+  #     - "../original:/app/uploads"
+  #     - "../temporal:/app/temporal"
+  #   depends_on:
+  #     - archihub_flask_backend
+  #     - redis
+  #   working_dir: /app
+  #   command: 'CELERY_WORKER=true celery --app app.celery_app worker -Q high,medium,low  --loglevel INFO'
+  #   networks:
+  #     - archihub_mongo_network
+  #     - archihub_elastic_network
 
 # ---------------------- FRONT END SERVICE ----------------------
   archihub_frontend:
