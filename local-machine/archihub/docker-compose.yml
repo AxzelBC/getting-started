@@ -67,7 +67,7 @@ services:
     depends_on:
       - archihub_mongodb_server_01
       - redis
-    command: ["/app/start.sh"]
+    command: ["/bin/bash","/app/start.sh"]
     networks:
       - archihub_mongo_network
       - archihub_elastic_network
