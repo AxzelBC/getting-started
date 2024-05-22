@@ -22,6 +22,28 @@ x-backend_env_variables: &backend_env_variables
   MONGO_HOST: ${MONGO_HOST}
   MONGO_PORT: '27017'
 # --------------------------------------------
+x-worker_env_variables: &worker_env_variables
+  ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
+  FRONTEND_HOST: ${FRONTEND_HOST}
+  FLASK_APP: app.py
+  FLASK_ENV: prod
+  FLASK_RUN_PORT: ${BACKEND_PORT_FLASK}
+  MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+  MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+  MONGO_INITDB_DATABASE: archihub-${ENVIRONMENT_NAME}
+  MONGO_DATABASE: archihub-${ENVIRONMENT_NAME}
+  CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+  CELERY_BROKER_HOST: ${CELERY_BROKER_HOST}
+  FLASK_DEBUG: ${FLASK_DEBUG}
+  USER_FILES_PATH: ${USER_FILES_PATH}
+  WEB_FILES_PATH: ${WEB_FILES_PATH}
+  ORIGINAL_FILES_PATH: ${ORIGINAL_FILES_PATH}
+  TEMPORAL_FILES_PATH: ${TEMPORAL_FILES_PATH}
+  MONGO_IP_SERVER: ${MONGO_HOST}
+  MONGO_HOST: ${MONGO_HOST}
+  MONGO_PORT: '27017'
+  CELERY_WORKER: true
+# --------------------------------------------
 x-mongo_db_env_variables: &mongo_db_env_variables
   MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
   MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
@@ -77,8 +99,7 @@ services:
       args:
         - PORT=${BACKEND_PORT_FLASK}
     environment:
-      <<: *backend_env_variables
-      - CELERY_WORKER=true
+      <<: *worker_env_variables
     volumes:
       - "../userfiles:/app/userfiles"
       - "../webfiles:/app/webfiles"
