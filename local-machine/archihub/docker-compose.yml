@@ -144,7 +144,7 @@ services:
       args:
         - FLASK_PORT=${BACKEND_PORT_FLASK}
     environment:
-      - FLASK_PORT: ${BACKEND_PORT_FLASK}
+      - FLASK_PORT=${BACKEND_PORT_FLASK}
     ports:
       - "80:80"
     depends_on:
