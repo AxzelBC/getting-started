@@ -5,3 +5,5 @@
 /temporal/*
 /data/mongodb/*
 /data/elastic/*
+
+.env
