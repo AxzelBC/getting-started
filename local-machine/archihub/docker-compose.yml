@@ -78,6 +78,7 @@ services:
         - PORT=${BACKEND_PORT_FLASK}
     environment:
       <<: *backend_env_variables
+      - CELERY_WORKER=true
     volumes:
       - "../userfiles:/app/userfiles"
       - "../webfiles:/app/webfiles"
@@ -87,7 +88,7 @@ services:
       - archihub_flask_backend
       - redis
     working_dir: /app
-    command: 'CELERY_WORKER=true celery --app app.celery_app worker --loglevel INFO'
+    command: 'celery --app app.celery_app worker --loglevel INFO'
     networks:
       - archihub_mongo_network
       - archihub_elastic_network
