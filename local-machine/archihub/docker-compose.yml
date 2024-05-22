@@ -119,8 +119,8 @@ services:
   archihub_frontend:
     build:
       context: ./frontend
-    environment:
-      FLASK_PORT: ${BACKEND_PORT_FLASK}
+      args:
+        - FLASK_PORT=${BACKEND_PORT_FLASK}
     ports:
       - "80:80"
     depends_on:
