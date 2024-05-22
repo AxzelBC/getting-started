@@ -119,7 +119,7 @@ services:
   archihub_frontend:
     build:
       context: ./frontend
-    args:
+    environment:
       - FLASK_PORT=${BACKEND_PORT_FLASK}
     ports:
       - "80:80"
