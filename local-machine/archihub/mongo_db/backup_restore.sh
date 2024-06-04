@@ -4,7 +4,7 @@
 echo "Restaurando base de datos..."
 
 
-FILES=(system.bson users.bson)
+FILES=(system.bson users.bson lists.bson forms.bson post_types.bson)
 
 cd /data_restore
 
