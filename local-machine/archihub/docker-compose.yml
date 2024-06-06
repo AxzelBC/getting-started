@@ -67,7 +67,7 @@ services:
     networks:
       - archihub_mongo_network
 
-# ----------- POPULATION OF ELASTIC INDEXES FROM MONGO DATABASE DOCUMENTS -----------
+# ------------------------- ARCHIHUB FLASK BACKEND -------------------
   archihub_flask_backend:
     build:
       context: ./backend
