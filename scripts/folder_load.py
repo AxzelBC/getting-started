@@ -26,7 +26,7 @@ def get_resource(ident):
     else:
         return None
 
-def cargar_carpeta(carpeta, parents = None, publish = False, default_type, main_type):
+def folder_load(carpeta, parents = None, publish = False, default_type, main_type):
     url = api_url + '/create'
 
     # extraer el nombre de la carpeta de la ruta
@@ -72,7 +72,7 @@ def cargar_carpeta(carpeta, parents = None, publish = False, default_type, main_
                 file_path = os.path.join(carpeta, file_name)
                 if os.path.isdir(file_path):
                     folder_num += 1
-                    cargar_carpeta(file_path, parents)
+                    folder_load(file_path, parents)
                 else:
                     if not file_name.endswith('.txt'):
                         files_num += 1
@@ -112,4 +112,4 @@ parser.add_argument('--publish', help='Publish the folder after loading', defaul
 args = parser.parse_args()
 
 
-cargar_carpeta(args.carpeta, None, args.publish, args.default_type, args.main_type)
+folder_load(args.carpeta, None, args.publish, args.default_type, args.main_type)
