@@ -82,7 +82,7 @@ services:
       - ./stash/wait_for:/wait_for:ro
       - ${USERFILES_PATH}:/app/userfiles
       - ${WEBFILE_PATH}:/app/webfiles
-      - ${UPLOAD_PATH}/app/uploads
+      - ${UPLOAD_PATH}:/app/uploads
       - ${TEMPORAL_PATH}:/app/temporal
     depends_on:
       - archihub_mongodb_server_01
@@ -103,7 +103,7 @@ services:
     volumes:
       - ${USERFILES_PATH}:/app/userfiles
       - ${WEBFILE_PATH}:/app/webfiles
-      - ${UPLOAD_PATH}/app/uploads
+      - ${UPLOAD_PATH}:/app/uploads
       - ${TEMPORAL_PATH}:/app/temporal
     depends_on:
       - archihub_flask_backend
