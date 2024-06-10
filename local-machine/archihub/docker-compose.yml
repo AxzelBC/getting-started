@@ -155,7 +155,7 @@ services:
     volumes:
       - ../data/elastic:/usr/share/elasticsearch/data
     networks:
-      - cev_elastic_network
+      - archihub_elastic_network
     healthcheck:
       test: curl -s https://localhost:$ELASTIC_PORT >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
       interval: 30s
