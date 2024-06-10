@@ -144,7 +144,7 @@ services:
     ports:
       - '9200:9200'
     environment:
-      <<: *general_env_variables
+      <<: *backend_env_variables
       "discovery.type": single-node
       "cluster.name": elasticsearch
       "xpack.license.self_generated.type": trial
