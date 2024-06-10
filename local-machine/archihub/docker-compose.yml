@@ -63,7 +63,7 @@ services:
     volumes:
       - ./mongo_db/backup/:/data_restore/
       - ./mongo_db/backup_restore.sh:/docker-entrypoint-initdb.d/backup_restore.sh
-      - ../data/mongodb:/data/db
+      - ${DATA_PATH}/mongodb:/data/db
     networks:
       - archihub_mongo_network
 
@@ -80,10 +80,10 @@ services:
     volumes:
       - ./stash/elastic_certs:/stash/elastic_certs:ro
       - ./stash/wait_for:/wait_for:ro
-      - "${USERFILES_PATH}:/app/userfiles"
-      - "${WEBFILE_PATH}:/app/webfiles"
-      - "${UPLOAD_PATH}/app/uploads"
-      - "${TEMPORAL_PATH}:/app/temporal"
+      - ${USERFILES_PATH}:/app/userfiles
+      - ${WEBFILE_PATH}:/app/webfiles
+      - ${UPLOAD_PATH}/app/uploads
+      - ${TEMPORAL_PATH}:/app/temporal
     depends_on:
       - archihub_mongodb_server_01
       - redis
@@ -101,10 +101,10 @@ services:
     environment:
       <<: *worker_env_variables
     volumes:
-      - "${USERFILES_PATH}:/app/userfiles"
-      - "${WEBFILE_PATH}:/app/webfiles"
-      - "${UPLOAD_PATH}/app/uploads"
-      - "${TEMPORAL_PATH}:/app/temporal"
+      - ${USERFILES_PATH}:/app/userfiles
+      - ${WEBFILE_PATH}:/app/webfiles
+      - ${UPLOAD_PATH}/app/uploads
+      - ${TEMPORAL_PATH}:/app/temporal
     depends_on:
       - archihub_flask_backend
       - redis
