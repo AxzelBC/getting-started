@@ -3,7 +3,7 @@
 cp ./archihub/.env.bak ./archihub/.env
 
 # directorios a crear
-declare -a directorios=("original" "temporal" "userfiles" "webfiles")
+declare -a directorios=("original" "temporal" "userfiles" "webfiles" "data")
 
 # iterar sobre los directorios
 for directorio in "${directorios[@]}"
