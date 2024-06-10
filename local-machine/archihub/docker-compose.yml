@@ -80,10 +80,10 @@ services:
     volumes:
       - ./stash/elastic_certs:/stash/elastic_certs:ro
       - ./stash/wait_for:/wait_for:ro
-      - "../userfiles:/app/userfiles"
-      - "../webfiles:/app/webfiles"
-      - "../original:/app/uploads"
-      - "../temporal:/app/temporal"
+      - "${USERFILES_PATH}:/app/userfiles"
+      - "${WEBFILE_PATH}:/app/webfiles"
+      - "${UPLOAD_PATH}/app/uploads"
+      - "${TEMPORAL_PATH}:/app/temporal"
     depends_on:
       - archihub_mongodb_server_01
       - redis
@@ -101,10 +101,10 @@ services:
     environment:
       <<: *worker_env_variables
     volumes:
-      - "../userfiles:/app/userfiles"
-      - "../webfiles:/app/webfiles"
-      - "../original:/app/uploads"
-      - "../temporal:/app/temporal"
+      - "${USERFILES_PATH}:/app/userfiles"
+      - "${WEBFILE_PATH}:/app/webfiles"
+      - "${UPLOAD_PATH}/app/uploads"
+      - "${TEMPORAL_PATH}:/app/temporal"
     depends_on:
       - archihub_flask_backend
       - redis
