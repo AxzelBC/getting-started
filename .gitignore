@@ -3,7 +3,7 @@
 /userfiles/*
 /webfiles/*
 /temporal/*
-/data/mongodb/*
-/data/elastic/*
+/local-machine/data/mongodb/*
+/local-machine/data/elastic/*
 
 .env
