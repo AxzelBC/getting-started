@@ -26,7 +26,7 @@ def get_resource(ident):
     else:
         return None
 
-def folder_load(carpeta, default_type, main_type, original = False, parents = None, publish = False):
+def folder_load(carpeta, default_type, main_type, original = False, parents = False, publish = False):
     url = api_url + '/create'
 
     # extraer el nombre de la carpeta de la ruta
@@ -47,14 +47,18 @@ def folder_load(carpeta, default_type, main_type, original = False, parents = No
     payload = {}
     modify_dict(payload, 'metadata.firstLevel.title', nombre)
     modify_dict(payload, 'post_type', type)
-    payload['files'] = []
+    payload['filesIds'] = []
 
     ident = datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')
     modify_dict(payload, 'ident', ident)
 
+
     if parents:
         payload['parents'] = parents
         payload['parent'] = parents
+    if publish:
+        payload['status'] = 'published'
+
 
     form = []
     form.append(('data', (None, json.dumps(payload), 'application/json')))
@@ -100,6 +104,11 @@ def folder_load(carpeta, default_type, main_type, original = False, parents = No
                     if publish:
                         payload['status'] = 'published'
 
+                    payload['filesIds'] = [{
+                                            'file': 0,
+                                            'filetag': 'archivo'
+                                        }]
+
                     file_path = os.path.join(carpeta, file_name)
                     form = []
                     form.append(('files', (file_name, open(file_path, 'rb'))))
@@ -115,4 +124,4 @@ parser.add_argument('--publish', help='Publish the folder after loading', defaul
 args = parser.parse_args()
 
 
-folder_load(args.carpeta, args.default_type, args.main_type, None, args.publish)
+folder_load(args.folder, args.default_type, args.main_type, False, False, args.publish)
