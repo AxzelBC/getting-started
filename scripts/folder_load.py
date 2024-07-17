@@ -26,7 +26,7 @@ def get_resource(ident):
     else:
         return None
 
-def folder_load(carpeta, parents = None, publish = False, default_type, main_type):
+def folder_load(carpeta, parents = None, publish = False, default_type, main_type, original = False):
     url = api_url + '/create'
 
     # extraer el nombre de la carpeta de la ruta
@@ -58,9 +58,14 @@ def folder_load(carpeta, parents = None, publish = False, default_type, main_typ
 
     form = []
     form.append(('data', (None, json.dumps(payload), 'application/json')))
-    r = requests.post(url, files=form, headers={'Authorization': 'Bearer ' + key})
-    print(r.json())
-    resource = get_resource(ident)
+    if not original:
+        r = requests.post(url, files=form, headers={'Authorization': 'Bearer ' + key})
+        print(r.json())
+        resource = get_resource(ident)
+    else:
+        print("Skiping Original folder")
+        resource = parents[0]
+
     if resource:
         parents = [resource]
         num_children = len(os.listdir(carpeta))
@@ -79,9 +84,9 @@ def folder_load(carpeta, parents = None, publish = False, default_type, main_typ
             if os.path.isdir(file_path):
                 folder_num += 1
                 if hasOriginalFolder and file_name == 'Original':
-                    folder_load(file_path, parents)
+                    folder_load(file_path, parents, publish, default_type, main_type, True)
                 elif not hasOriginalFolder:
-                    folder_load(file_path, parents)
+                    folder_load(file_path, parents, publish, default_type, main_type)
             else:
                 if not file_name.endswith('.txt'):
                     files_num += 1
