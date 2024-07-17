@@ -29,12 +29,8 @@ def get_resource(ident):
 def folder_load(carpeta, default_type, main_type, original = False, parents = False, publish = False):
     url = api_url + '/create'
 
-    # extraer el nombre de la carpeta de la ruta
-    nombre = carpeta.split('/')[-1]
-    # si la carpeta termina con /, se elimina
-    if nombre == '': nombre = carpeta.split('/')[-2]
-    # extraer solo la ruta de la carpeta
-    ruta = carpeta[:-len(nombre)]
+    nombre = os.path.basename(carpeta.rstrip(os.sep))
+    ruta = os.path.dirname(carpeta)
 
     # si existe el archivo nombre.txt en la carpeta, se lee el contenido y se guarda en type
     try:
