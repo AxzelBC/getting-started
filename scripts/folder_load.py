@@ -56,53 +56,51 @@ def folder_load(carpeta, parents = None, publish = False, default_type, main_typ
         payload['parents'] = parents
         payload['parent'] = parents
 
-    if type != 'unidad-documental':
-        form = []
-        form.append(('data', (None, json.dumps(payload), 'application/json')))
-        r = requests.post(url, files=form, headers={'Authorization': 'Bearer ' + key})
-        print(r.json())
-        resource = get_resource(ident)
-        if resource:
-            parents = [resource]
-            num_children = len(os.listdir(carpeta))
-            folder_num = 0
-            files_num = 0
-            # iterar en las carpetas de la carpeta
-            for file_name in os.listdir(carpeta):
-                file_path = os.path.join(carpeta, file_name)
-                if os.path.isdir(file_path):
-                    folder_num += 1
-                    folder_load(file_path, parents)
-                else:
-                    if not file_name.endswith('.txt'):
-                        files_num += 1
-                        nombre = file_name.split('.')[0]
-                        payload = {}
-                        modify_dict(payload, 'metadata.firstLevel.title', nombre)
-                        modify_dict(payload, 'post_type', 'unidad-documental')
-                        modify_dict(payload, 'ident', datetime.datetime.now().strftime('%Y%m%d%H%M%S%f'))
-                        payload['parent'] = parents
-                        payload['parents'] = parents
-                        if publish:
-                            payload['status'] = 'published'
+    form = []
+    form.append(('data', (None, json.dumps(payload), 'application/json')))
+    r = requests.post(url, files=form, headers={'Authorization': 'Bearer ' + key})
+    print(r.json())
+    resource = get_resource(ident)
+    if resource:
+        parents = [resource]
+        num_children = len(os.listdir(carpeta))
+        folder_num = 0
+        files_num = 0
+        hasOriginalFolder = False
+        for file_name in os.listdir(carpeta):
+            if os.path.isdir(os.path.join(carpeta, file_name)):
+                if file_name == 'Original':
+                    hasOriginalFolder = True
 
-                        file_path = os.path.join(carpeta, file_name)
-                        form = []
-                        form.append(('files', (file_name, open(file_path, 'rb'))))
-                        form.append(('data', (None, json.dumps(payload), 'application/json')))
-
-                        r = requests.post(url, data={**payload}, files=form, headers={'Authorization': 'Bearer ' + key})
-
-    else:
-        form = []
-        form.append(('data', (None, json.dumps(payload), 'application/json')))
+        # iterar en las carpetas de la carpeta
         for file_name in os.listdir(carpeta):
             file_path = os.path.join(carpeta, file_name)
-            if os.path.isfile(file_path):
-                form.append(('files', (file_name, open(file_path, 'rb'))))
+            
+            if os.path.isdir(file_path):
+                folder_num += 1
+                if hasOriginalFolder and file_name == 'Original':
+                    folder_load(file_path, parents)
+                elif not hasOriginalFolder:
+                    folder_load(file_path, parents)
+            else:
+                if not file_name.endswith('.txt'):
+                    files_num += 1
+                    nombre = file_name.split('.')[0]
+                    payload = {}
+                    modify_dict(payload, 'metadata.firstLevel.title', nombre)
+                    modify_dict(payload, 'post_type', 'unidad-documental')
+                    modify_dict(payload, 'ident', datetime.datetime.now().strftime('%Y%m%d%H%M%S%f'))
+                    payload['parent'] = parents
+                    payload['parents'] = parents
+                    if publish:
+                        payload['status'] = 'published'
 
-        r = requests.post(url, data={**payload}, files=form, headers={'Authorization': 'Bearer ' + key})
-        print(r.json())
+                    file_path = os.path.join(carpeta, file_name)
+                    form = []
+                    form.append(('files', (file_name, open(file_path, 'rb'))))
+                    form.append(('data', (None, json.dumps(payload), 'application/json')))
+
+                    r = requests.post(url, data={**payload}, files=form, headers={'Authorization': 'Bearer ' + key})
 
 parser = argparse.ArgumentParser(description='Load recursively a folder to Archihub')
 parser.add_argument('--folder', help='Folder to load recursively to Archihub', required=True)
