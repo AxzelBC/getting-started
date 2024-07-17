@@ -26,7 +26,7 @@ def get_resource(ident):
     else:
         return None
 
-def folder_load(carpeta, parents = None, publish = False, default_type, main_type, original = False):
+def folder_load(carpeta, default_type, main_type, original = False, parents = None, publish = False):
     url = api_url + '/create'
 
     # extraer el nombre de la carpeta de la ruta
@@ -84,9 +84,9 @@ def folder_load(carpeta, parents = None, publish = False, default_type, main_typ
             if os.path.isdir(file_path):
                 folder_num += 1
                 if hasOriginalFolder and file_name == 'Original':
-                    folder_load(file_path, parents, publish, default_type, main_type, True)
+                    folder_load(file_path, default_type, main_type, True, parents, publish)
                 elif not hasOriginalFolder:
-                    folder_load(file_path, parents, publish, default_type, main_type)
+                    folder_load(file_path, default_type, main_type, False, parents, publish)
             else:
                 if not file_name.endswith('.txt'):
                     files_num += 1
@@ -115,4 +115,4 @@ parser.add_argument('--publish', help='Publish the folder after loading', defaul
 args = parser.parse_args()
 
 
-folder_load(args.carpeta, None, args.publish, args.default_type, args.main_type)
+folder_load(args.carpeta, args.default_type, args.main_type, None, args.publish)
