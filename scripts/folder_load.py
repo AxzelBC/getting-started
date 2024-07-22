@@ -35,7 +35,7 @@ def folder_load(carpeta, default_type, main_type, original = False, parents = Fa
     # si existe el archivo nombre.txt en la carpeta, se lee el contenido y se guarda en type
     try:
         ruta = os.path.join(ruta, nombre + '.txt')
-        with open(ruta, 'r') as f:
+        with open(ruta, 'r', encoding='utf-8') as f:
             type = f.read()
     except:
         type = default_type
