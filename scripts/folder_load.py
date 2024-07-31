@@ -26,7 +26,7 @@ def get_resource(ident):
     else:
         return None
 
-def folder_load(carpeta, default_type, main_type, original = False, parents = False, publish = False):
+def folder_load(carpeta, default_type, main_type, original = False, parents = False, publish = False, avoid = False):
     url = api_url + '/create'
 
     nombre = os.path.basename(carpeta.rstrip(os.sep))
@@ -74,8 +74,12 @@ def folder_load(carpeta, default_type, main_type, original = False, parents = Fa
         hasOriginalFolder = False
         for file_name in os.listdir(carpeta):
             if os.path.isdir(os.path.join(carpeta, file_name)):
-                if file_name == 'Original':
-                    hasOriginalFolder = True
+                if avoid:
+                    foldertoavoid = avoid.split(',')
+                    if file_name in foldertoavoid:
+                        print("Avoiding folder: " + file_name)
+                        hasOriginalFolder = True
+
 
         # iterar en las carpetas de la carpeta
         for file_name in os.listdir(carpeta):
@@ -117,7 +121,8 @@ parser.add_argument('--folder', help='Folder to load recursively to Archihub', r
 parser.add_argument('--default_type', help='Default type for the resources', required=True)
 parser.add_argument('--main_type', help='Main type for the resources', required=True)
 parser.add_argument('--publish', help='Publish the folder after loading', default=False)
+parser.add_argument('--avoid', help='Folders to skip', default=False)
 args = parser.parse_args()
 
 
-folder_load(args.folder, args.default_type, args.main_type, False, False, args.publish)
+folder_load(args.folder, args.default_type, args.main_type, False, False, args.publish, args.avoid)
