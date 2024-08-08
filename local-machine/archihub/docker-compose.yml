@@ -19,6 +19,11 @@ x-backend_env_variables: &backend_env_variables
   MONGO_IP_SERVER: ${MONGO_HOST}
   MONGO_HOST: ${MONGO_HOST}
   MONGO_PORT: '27017'
+  ELASTIC_DOMAIN: ${ELASTIC_DOMAIN}
+  ELASTIC_USER: ${ELASTIC_USER}
+  ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+  ELASTIC_PORT: ${ELASTIC_PORT}
+  ELASTIC_INDEX_PREFIX: archihub-${ENVIRONMENT_NAME}
 # --------------------------------------------
 x-worker_env_variables: &worker_env_variables
   ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
@@ -41,6 +46,11 @@ x-worker_env_variables: &worker_env_variables
   MONGO_HOST: ${MONGO_HOST}
   MONGO_PORT: '27017'
   CELERY_WORKER: true
+  ELASTIC_DOMAIN: ${ELASTIC_DOMAIN}
+  ELASTIC_USER: ${ELASTIC_USER}
+  ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+  ELASTIC_PORT: ${ELASTIC_PORT}
+  ELASTIC_INDEX_PREFIX: archihub-${ENVIRONMENT_NAME}
 # --------------------------------------------
 x-mongo_db_env_variables: &mongo_db_env_variables
   MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
