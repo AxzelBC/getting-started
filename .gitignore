@@ -7,3 +7,6 @@
 /local-machine/data/elastic/*
 
 .env
+
+/network/ansible/*
+!/network/ansible/examples
