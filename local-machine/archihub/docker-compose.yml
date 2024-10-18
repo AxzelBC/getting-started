@@ -194,14 +194,7 @@ services:
     networks:
       - archihub_mongo_network
       - archihub_elastic_network
-
-  redis_celery:
-    image: redis:6-alpine
-    ports:
-      - "6379:6479"
-    networks:
-      - archihub_mongo_network
-      - archihub_elastic_network
+      
 # ---------------------- NETWORKS LISTING ----------------------
 
 networks:
