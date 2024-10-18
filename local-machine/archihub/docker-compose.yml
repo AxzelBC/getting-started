@@ -3,7 +3,7 @@ x-backend_env_variables: &backend_env_variables
   ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
   FRONTEND_HOST: ${FRONTEND_HOST}
   FLASK_APP: app.py
-  FLASK_ENV: prod
+  FLASK_ENV: ${FLASK_ENV}
   FLASK_RUN_PORT: ${BACKEND_PORT_FLASK}
   MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
   MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
@@ -30,7 +30,7 @@ x-worker_env_variables: &worker_env_variables
   ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
   FRONTEND_HOST: ${FRONTEND_HOST}
   FLASK_APP: app.py
-  FLASK_ENV: prod
+  FLASK_ENV: ${FLASK_ENV}
   FLASK_RUN_PORT: ${BACKEND_PORT_FLASK}
   MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
   MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
@@ -194,7 +194,7 @@ services:
     networks:
       - archihub_mongo_network
       - archihub_elastic_network
-      
+
 # ---------------------- NETWORKS LISTING ----------------------
 
 networks:
