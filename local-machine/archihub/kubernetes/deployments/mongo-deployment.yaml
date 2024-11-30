@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+spec:
+  replicas: 1 # Número de réplicas que deseas
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:5.0.9
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "500m"
+            limits:
+              memory: "4Gi"
+              cpu: "1"
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: MONGO_INITDB_DATABASE
+            - name: MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: MONGO_HOST
+            - name: MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: MONGO_PORT
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secrets
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secrets
+                  key: MONGO_INITDB_ROOT_PASSWORD
+          volumeMounts:
+            # - name: mongo-backup
+            #   mountPath: /data_restore
+            # - name: mongo-backup-script
+            #   mountPath: /docker-entrypoint-initdb.d/backup_restore.sh
+            #   subPath: backup_restore.sh
+            - name: mongo-data
+              mountPath: /data/db
+      volumes:
+        # - name: mongo-backup
+        #   hostPath:
+        #     path: /ruta/en/el/host/a/mongo_db/backup
+        #     type: Directory
+        # - name: mongo-backup-script
+        #   hostPath:
+        #     path: /ruta/en/el/host/a/mongo_db/backup_restore.sh
+        #     type: File
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: mongo-pvc
