@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+        - name: elasticsearch
+          image: elasticsearch:7.17.6
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1"
+            limits:
+              memory: "4Gi"
+              cpu: "2"
+          ports:
+            - containerPort: 9200
+          env:
+            - name: discovery.type
+              value: single-node
+            - name: cluster.name
+              value: elasticsearch
+            - name: xpack.license.self_generated.type
+              value: trial
+            - name: ES_JAVA_OPTS
+              value: "-Xms1g -Xmx1g"
+            - name: http.cors.enabled
+              value: "true"
+            - name: http.cors.allow-origin
+              value: "*"
+            - name: node.name
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: ELASTIC_DOMAIN
+            - name: ELASTIC_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: ELASTIC_PORT
+            - name: ELASTIC_INDEX_PREFIX
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: ELASTIC_INDEX_PREFIX
+            - name: ELASTIC_USER
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secrets
+                  key: ELASTIC_USER
+            - name: ELASTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secrets
+                  key: ELASTIC_PASSWORD
+          volumeMounts:
+            - name: elastic-data
+              mountPath: /var/lib/elasticsearch/data
+      volumes:
+        - name: elastic-data
+          persistentVolumeClaim:
+            claimName: elasticsearch-pvc

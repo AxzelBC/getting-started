@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-configmap
+  labels:
+    app: backend
+data:
+  ENVIRONMENT_NAME: "prod"
+  FRONTEND_HOST: "localhost"
+  FLASK_APP: "app.py"
+  FLASK_ENV: "DEV"
+  FLASK_RUN_PORT: "11000"
+  MONGO_INITDB_DATABASE: "archihub-prod"
+  MONGO_DATABASE: "archihub-prod"
+  CELERY_BROKER_URL: "redis://redis"
+  CELERY_BROKER_HOST: "redis"
+  FLASK_DEBUG: "True"
+  USER_FILES_PATH: "/app/userfiles"
+  WEB_FILES_PATH: "/app/webfiles"
+  ORIGINAL_FILES_PATH: "/app/uploads"
+  TEMPORAL_FILES_PATH: "/app/temporal"
+  MONGO_IP_SERVER: "archihub_mongodb_server_01"
+  MONGO_HOST: "archihub_mongodb_server_01"
+  MONGO_PORT: "27017"
+  ELASTIC_DOMAIN: "archihub_elasticsearch"
+  ELASTIC_PORT: "9200"
+  ELASTIC_INDEX_PREFIX: "archihub-prod"
+  HF_TOKEN: ""
