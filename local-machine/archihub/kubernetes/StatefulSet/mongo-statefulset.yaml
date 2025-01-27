@@ -1,8 +1,9 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: mongodb
+  name: mongo
 spec:
+  serviceName: mongo
   replicas: 1 # Número de réplicas que deseas
   selector:
     matchLabels:
@@ -17,29 +18,17 @@ spec:
           image: mongo:5.0.9
           resources:
             requests:
-              memory: "2Gi"
+              memory: "1Gi"
               cpu: "500m"
             limits:
-              memory: "4Gi"
+              memory: "2Gi"
               cpu: "1"
           ports:
             - containerPort: 27017
+          envFrom:
+            - configMapRef:
+                name: mongo-configmap
           env:
-            - name: MONGO_INITDB_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: mongo-configmap
-                  key: MONGO_INITDB_DATABASE
-            - name: MONGO_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: mongo-configmap
-                  key: MONGO_HOST
-            - name: MONGO_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: mongo-configmap
-                  key: MONGO_PORT
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                 secretKeyRef:

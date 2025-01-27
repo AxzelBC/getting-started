@@ -6,10 +6,10 @@ metadata:
     app: mongodb
 spec:
   capacity:
-    storage: 10Gi
+    storage: 2Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: manual
+  storageClassName: standard
   hostPath:
-    path: /data/k8s/mongo
+    path: /data/mongo
