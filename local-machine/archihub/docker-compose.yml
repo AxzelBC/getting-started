@@ -25,6 +25,7 @@ x-backend_env_variables: &backend_env_variables
   ELASTIC_PORT: ${ELASTIC_PORT}
   ELASTIC_INDEX_PREFIX: archihub-${ENVIRONMENT_NAME}
   HF_TOKEN: ${HF_TOKEN}
+  REDIRECT_URL: ${REDIRECT_URL}
 # --------------------------------------------
 x-worker_env_variables: &worker_env_variables
   ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}

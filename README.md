@@ -8,10 +8,10 @@ En cuanto al backend, opera utilizando una base de datos MongoDB en conjunto con
 
 ## Instalación con Docker
 
-Para facilitar la instalación de la herramienta, existe un [archivo](./docker-compose/README.md) de configuración para _docker compose_ que despliega el sistema en una sola máquina. Sin embargo, es recomendable para entornos colaborativos o de producción hacer el despliegue de la herramienta en varias máquinas. Los detalles de una instalación así se encuentran en las guías de uso.
+Para facilitar la instalación de la herramienta, existe un [archivo](./local-machine/archihub/docker-compose.yml) de configuración para _docker compose_ que despliega el sistema en una sola máquina. Sin embargo, es recomendable para entornos colaborativos o de producción hacer el despliegue de la herramienta en varias máquinas. Los detalles de una instalación así se encuentran en la [documentación oficial](https://archihub-app.github.io/archihub.github.io/).
 
-## Guías de uso
+## Guías de instalación y uso del aplicativo
 
-### Instalación
+Para instalar la herramienta debes seguir los pasos indicados en la [documentación oficial](https://archihub-app.github.io/archihub.github.io/) en la sección **Empieza ahora**.
 
-### Uso del aplicativo
+En cuanto al uso del aplicativo, te recomendamos revisar las [guías en video](https://www.youtube.com/watch?v=XrH0VRjUpys&list=PLzh6tCpowSeuJ7QOqjVL_lM5ASIcBdQXu) para el uso de ArchiHUB.
