@@ -8,7 +8,12 @@ spec:
   selector:
     app: redis
   ports:
-    - protocol: TCP
+    - name: client
+      protocol: TCP
       port: 6379
       targetPort: 6379
-  type: ClusterIP
+    - name: gossip
+      protocol: TCP
+      port: 16379
+      targetPort: 16379
+  clusterIP: None

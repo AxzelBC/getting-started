@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+spec:
+  # Define the service name
+  serviceName: redis
+  # Define the number of replicas that you want
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      # Define the containers that you want to run in the pod
+      containers:
+        - name: redis
+          image: redis:6-alpine
+          # Define the resources that you want to allocate to the container
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+          # Define the ports that you want to expose
+          ports:
+            - containerPort: 6379
+              name: client
+            - containerPort: 16379
+              name: gossip
+          # Define the volume that you want to mount
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+  # Define the volume that you want to mount
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
