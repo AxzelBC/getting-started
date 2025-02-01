@@ -1,0 +1,90 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elastic-certs-pv
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadOnlyMany # Esto es solo lectura
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard # El nombre de la StorageClass
+  hostPath:
+    path: ./stash/elastic_certs
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: wait-for-pv
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadOnlyMany # Solo lectura
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+    path: ./stash/wait_for
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: userfiles-pv
+spec:
+  capacity:
+    storage: 5Gi # Ajusta el tamaño según tus necesidades
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce # Solo lectura y escritura por un único pod
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+    path: /home/kubernetes/GitHub/getting-started/local-machine/archihub//userfiles
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: webfiles-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+    path: /home/kubernetes/GitHub/getting-started/local-machine/archihub//webfiles
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: uploads-pv
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+    path: /home/kubernetes/GitHub/getting-started/local-machine/archihub//original
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: temporal-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+    path: /home/kubernetes/GitHub/getting-started/local-machine/archihub/temporal
