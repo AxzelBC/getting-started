@@ -1,10 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: elasticsearch
   labels:
     app: elasticsearch
 spec:
+  serviceName: elasticsearch
   replicas: 1
   selector:
     matchLabels:
@@ -30,11 +31,7 @@ spec:
           # Define the ports for the container
           ports:
             - containerPort: 9200
-              name: elastic-db
-              protocol: TCP
             - containerPort: 9300
-              name: transport
-              protocol: TCP
           # Define the environment variables for the container
           envFrom:
             - configMapRef:
