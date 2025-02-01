@@ -8,8 +8,7 @@ spec:
   selector:
     app: mongodb
   ports:
-    - name: mongo-port
-      protocol: TCP
+    - protocol: TCP
       port: 27017
       targetPort: 27017
   clusterIP: None

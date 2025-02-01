@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+  labels:
+    app: mongodb
+spec:
+  serviceName: mongo
+  # Define the number of replicas that you want
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      # Define the containers that you want to run in the pod
+      containers:
+        - name: mongo
+          image: mongo:5.0.9
+          # Define the resources that you want to allocate to the container
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+          # Define the ports that you want to expose
+          ports:
+            - containerPort: 27017
+          # Define the environment variables
+          envFrom:
+            - configMapRef:
+                name: mongo-configmap
+            - secretRef:
+                name: mongo-secrets
+          # Define the volume mounts
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+            - name: mongo-backup
+              mountPath: /data_restore/
+            - name: mongo-backup-script
+              mountPath: /docker-entrypoint-initdb.d/backup_restore.sh
+              subPath: backup_restore.sh
+      volumes:
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: mongo-data-pvc
+        - name: mongo-backup
+          persistentVolumeClaim:
+            claimName: mongo-backup-pvc
+        - name: mongo-backup-script
+          configMap:
+            name: mongo-backup-script
+            defaultMode: 0744
